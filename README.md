@@ -1,3 +1,50 @@
+## How to run this project
+
+### Prerequisites
+- PHP >= 8.2, recommended using PHP 8.3
+- Composer
+- MySQL or MariaDB or other database system
+- Node.js & NPM (if using frontend assets)
+
+### Installation Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Ilyessin12/restoranayam
+   cd restoranayam
+   ```
+
+2. Install PHP dependencies:
+    ```bash
+    composer install
+    ```
+
+3. Set up environment variables
+    ```bash
+    cp .env.example .env
+    ```
+
+4. Configure your .env so that it properly connects to your database
+
+5. Generate application key:
+    ```bash
+    php artisan key:generate
+    ```
+
+6. Run database migrations
+    ```bash
+    php artisan migrate
+    ```
+7. Install npm
+    ```bash
+    npm install && npm run dev
+    ```
+8. Start the development server
+    ```bash
+    php artisan serve
+    ```
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
