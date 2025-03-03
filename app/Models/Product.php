@@ -14,6 +14,7 @@ class Product extends Model
         'description',
         'price',
         'stock',
+        'image',
         // Add any other fields your product table has
     ];
     
