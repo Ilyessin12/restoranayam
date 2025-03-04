@@ -1,23 +1,33 @@
 <?php
 
-namespace App\Filament\Resources\ProductResource\RelationManagers;
+namespace App\Filament\Resources;
 
+use App\Filament\Resources\StockMovementResource\Pages;
+use App\Filament\Resources\StockMovementResource\RelationManagers;
+use App\Models\StockMovement;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class StockMovementsRelationManager extends RelationManager
+class StockMovementResource extends Resource
 {
-    protected static string $relationship = 'stockMovements';
+    protected static ?string $model = StockMovement::class;
 
-    public function form(Form $form): Form
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('product_id')
+                    ->relationship('product', 'name')
+                    ->required()
+                    ->searchable()
+                    ->preload(),
                 Forms\Components\Select::make('movement_type')
                     ->options([
                         'in' => 'Stock In (Addition)',
@@ -34,11 +44,13 @@ class StockMovementsRelationManager extends RelationManager
             ]);
     }
 
-    public function table(Table $table): Table
+    public static function table(Table $table): Table
     {
         return $table
-        ->recordTitleAttribute('id')
             ->columns([
+                Tables\Columns\TextColumn::make('product.name')
+                ->searchable()
+                ->sortable(),
                 Tables\Columns\TextColumn::make('movement_type')
                     ->colors([
                         'success' => 'in',
@@ -46,20 +58,25 @@ class StockMovementsRelationManager extends RelationManager
                     ])
                     ->formatStateUsing(fn (string $state): string => $state === 'in' ? 'Stock In' : 'Stock Out'),
                 Tables\Columns\TextColumn::make('quantity')
-                    ->numeric(),
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('movement_date')
                     ->dateTime()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -68,23 +85,19 @@ class StockMovementsRelationManager extends RelationManager
             ]);
     }
 
-        protected function beforeCreate(): void //supayah otomatis mengisi product_id
+    public static function getRelations(): array
     {
-        // The product_id is automatically set by the relationship
-        $this->form->fill([
-            'product_id' => $this->ownerRecord->id,
-        ]);
+        return [
+            //
+        ];
     }
 
-    protected function afterCreate(): void //
+    public static function getPages(): array
     {
-        $record = $this->record;
-        $product = $this->ownerRecord;
-        
-        if ($record->movement_type === 'in') {
-            $product->increment('stock', $record->quantity);
-        } else {
-            $product->decrement('stock', min($record->quantity, $product->stock));
-        }
+        return [
+            'index' => Pages\ListStockMovements::route('/'),
+            'create' => Pages\CreateStockMovement::route('/create'),
+            'edit' => Pages\EditStockMovement::route('/{record}/edit'),
+        ];
     }
 }
