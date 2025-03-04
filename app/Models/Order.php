@@ -12,7 +12,7 @@ class Order extends Model{
     protected $fillable = [
         'user_id',
         'order_date',
-        'total_price',
+        'total',
         'status',
         // Add any other fields your order table has
     ];
