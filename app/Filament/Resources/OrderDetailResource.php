@@ -1,31 +1,41 @@
 <?php
 
-namespace App\Filament\Resources\OrderResource\RelationManagers;
+namespace App\Filament\Resources;
 
+use App\Filament\Resources\OrderDetailResource\Pages;
+use App\Filament\Resources\OrderDetailResource\RelationManagers;
+use App\Models\OrderDetail;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Models\Product;
 
-class OrderDetailsRelationManager extends RelationManager
+class OrderDetailResource extends Resource
 {
-    protected static string $relationship = 'orderDetails';
+    protected static ?string $model = OrderDetail::class;
 
-    public function form(Form $form): Form
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('order_id')
+                    ->relationship('order', 'id')
+                    ->required()
+                    ->searchable()
+                    ->preload()
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "Order #{$record->id} - " . $record->order_date->format('Y-m-d')),
                 Forms\Components\Select::make('product_id')
                     ->relationship('product', 'name')
                     ->required()
                     ->searchable()
                     ->preload()
                     ->afterStateUpdated(function ($state, callable $set) {
-                        $product = Product::find($state);
+                        $product = \App\Models\Product::find($state);
                         if ($product) {
                             $set('price', $product->price);
                         }
@@ -59,43 +69,72 @@ class OrderDetailsRelationManager extends RelationManager
             ]);
     }
 
-    public function table(Table $table): Table
+    public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('id')
             ->columns([
+                Tables\Columns\TextColumn::make('order.id')
+                    ->label('Order ID')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('product.name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('quantity')
-                    ->numeric(),
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money('IDR'),
+                    ->money('IDR')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('subtotal')
                     ->money('IDR')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $data['subtotal'] = $data['quantity'] * $data['price'];
-                        return $data;
-                    }),
-            ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $data['subtotal'] = $data['quantity'] * $data['price'];
-                        return $data;
-                    }),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListOrderDetails::route('/'),
+            'create' => Pages\CreateOrderDetail::route('/create'),
+            'edit' => Pages\EditOrderDetail::route('/{record}/edit'),
+        ];
+    }
+
+    protected function mutateFormDataBeforeCreate(array $data): array //unutk perhitungan subtotal otomatis le
+    {
+        $data['subtotal'] = $data['quantity'] * $data['price'];
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeUpdate(array $data): array //ini juga sebelum update diitung otomatis
+    {
+        $data['subtotal'] = $data['quantity'] * $data['price'];
+        return $data;
     }
 }
