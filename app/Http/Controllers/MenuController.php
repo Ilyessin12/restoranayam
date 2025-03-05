@@ -22,4 +22,16 @@ class MenuController extends Controller
         
         return view('menu.show', compact('product'));
     }
+	
+	public function beranda()
+{
+		$products = Product::all();
+		return view('beranda', compact('products'));
+	}
+
+	public function menu()
+	{
+		$products = Product::all();
+		return view('menu.index', compact('products'));
+	}
 }

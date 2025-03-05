@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -10,15 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-/**
- * @method void middleware(string $middleware, array $options = [])
- */
-
 class CheckoutController extends Controller
 {
     public function __construct() //use auth middleware to protect the checkout page
     {
-        $this->middleware('auth');
+        
     }
     
     public function index()
@@ -96,12 +93,24 @@ class CheckoutController extends Controller
             
             DB::commit();
             
-            return redirect()->route('orders.show', $order->id)
-                ->with('success', 'Your order has been placed successfully!');
+            return redirect()->route('checkout.success', $order->id)
+				->with('success', 'Your order has been placed successfully!');
                 
         } catch(\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Error placing order: ' . $e->getMessage());
         }
     }
+	
+	public function show($id)
+	{
+		$order = Order::with('orderDetails.product')->findOrFail($id);
+		return view('checkout.success', compact('order'));
+	}
+	
+	public function orders()
+	{
+		$orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+		return view('orders.index', compact('orders'));
+	}
 }
