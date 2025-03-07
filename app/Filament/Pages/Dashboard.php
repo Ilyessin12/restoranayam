@@ -24,4 +24,9 @@ class Dashboard extends Page
             'orders' => $this->orders,
         ];
     }
+	
+	protected function header(): ?string
+    {
+        return null; // Ensure no header is rendered
+    }
 }

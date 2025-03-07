@@ -35,7 +35,7 @@
           @auth
               @if (Auth::user()->role === 'admin')
                   <a class="px-4 py-2 text-white bg-gray-700 rounded-lg hover:bg-gray-800"
-                      href="/admin">Dashboard</a>
+                      href="/admin/dashboard">Dashboard</a>
               @endif
           @endauth
 		  

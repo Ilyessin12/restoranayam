@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+			->brandName('Restoranayam')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -57,6 +58,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+			->renderHook('panels::page.header', fn () => '');
     }
 }

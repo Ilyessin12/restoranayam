@@ -1,5 +1,5 @@
-<x-filament-panels::page class="dark bg-gray-900 text-white">
-    <div class="p-6 bg-gray-800 text-white shadow rounded-lg">
+<x-filament-panels::page class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
+    <div class="p-6 bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white shadow rounded-lg">
         <!-- Export Buttons -->
         <div class="flex space-x-4 mt-4">
             <a href="{{ route('export.excel') }}" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow">
@@ -8,13 +8,13 @@
             <a href="{{ route('export.csv') }}" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow">
                 Export dalam CSV
             </a>
-			<a href="{{ route('export.pdf') }}" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow">
-				Export dalam PDF
-			</a>
+            <a href="{{ route('export.pdf') }}" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow">
+                Export dalam PDF
+            </a>
         </div>
 
         <div class="overflow-x-auto mt-4">
-            <table class="w-full border rounded-lg shadow-md bg-gray-800 text-white">
+            <table class="w-full border rounded-lg shadow-md bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                 <thead class="bg-orange-500 text-white">
                     <tr>
                         <th class="p-3">Product ID</th>
@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                     @foreach($products as $product)
-                        <tr class="border-b bg-gray-700 text-white">
+                        <tr class="border-b bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-white">
                             <td class="p-3 text-center">{{ $product->id }}</td>
                             <td class="p-3 text-center">{{ $product->name }}</td>
                             <td class="p-3 text-center">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
