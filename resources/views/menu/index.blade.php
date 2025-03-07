@@ -21,29 +21,36 @@
 				</div>
 
 				<div class="flex items-center justify-between p-4">
-					<!-- Updated Form with JS -->
-					<form class="order-form" action="{{ route('cart.add') }}" method="POST">
-						@csrf
-						<input type="hidden" name="product_id" value="{{ $product->id }}">
-						<input type="hidden" name="base_price" value="{{ $product->price }}"> <!-- Store base price -->
+					@auth
+						<!-- Form for Logged-in Users -->
+						<form class="order-form" action="{{ route('cart.add') }}" method="POST">
+							@csrf
+							<input type="hidden" name="product_id" value="{{ $product->id }}">
+							<input type="hidden" name="base_price" value="{{ $product->price }}">
 
-						<!-- Quantity Selection -->
-						<div class="flex items-center space-x-2">
-							<button type="button" class="px-2 py-1 bg-gray-300 text-gray-800 rounded" onclick="updateQuantity(this, -1, {{ $product->price }})">-</button>
-							<input type="number" name="quantity" value="1" min="1" class="w-12 text-center border border-gray-300 rounded" 
-								oninput="updatePrice(this, {{ $product->price }})">
-							<button type="button" class="px-2 py-1 bg-gray-300 text-gray-800 rounded" onclick="updateQuantity(this, 1, {{ $product->price }})">+</button>
-						</div>
+							<!-- Quantity Selection -->
+							<div class="flex items-center space-x-2">
+								<button type="button" class="px-2 py-1 bg-gray-300 text-gray-800 rounded" onclick="updateQuantity(this, -1, {{ $product->price }})">-</button>
+								<input type="number" name="quantity" value="1" min="1" class="w-12 text-center border border-gray-300 rounded" 
+									oninput="updatePrice(this, {{ $product->price }})">
+								<button type="button" class="px-2 py-1 bg-gray-300 text-gray-800 rounded" onclick="updateQuantity(this, 1, {{ $product->price }})">+</button>
+							</div>
 
-						<!-- Submit Button with Notification -->
-						<button type="submit" class="px-4 py-2 bg-orange-600 text-white mt-2 w-full submit-order">Beli</button>
-					</form>
+							<!-- Submit Button with Notification -->
+							<button type="submit" class="px-4 py-2 bg-orange-600 text-white mt-2 w-full submit-order">Beli</button>
+						</form>
+					@else
+						<!-- Redirect Guests to Register -->
+						<a href="{{ route('register') }}" class="px-4 py-2 bg-orange-600 text-white mt-2 w-full text-center rounded-lg hover:bg-red-600 transition">
+							Beli
+						</a>
+					@endauth
 
 					<!-- Dynamic Price -->
 					<span class="text-xl text-orange-600 price-display">Rp.{{ number_format($product->price, 2) }}</span>
 				</div>
 			</div>
-		@endforeach
+		  @endforeach
         </div>
       </div>
     </section>
@@ -51,26 +58,24 @@
 
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
-        // Select all forms with class "order-form"
         document.querySelectorAll(".order-form").forEach(form => {
             form.addEventListener("submit", function(event) {
-                event.preventDefault(); // Prevent the form from submitting immediately
+                event.preventDefault();
 
                 let formData = new FormData(this);
                 let productName = this.closest('.rounded-lg').querySelector("h4").textContent;
                 let quantity = formData.get("quantity");
 
-                // Show SweetAlert confirmation
                 Swal.fire({
-                    title: "Order Placed!",
-                    text: `${quantity}x ${productName} has been added to your cart.`,
+                    title: "Pesanan Diterima!",
+                    text: `${quantity}x ${productName} telah dimasukkan ke keranjang anda.`,
                     icon: "success",
                     showCancelButton: false,
                     confirmButtonText: "OK",
                     allowOutsideClick: false
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        this.submit(); // Now submit the form after user clicks "OK"
+                        this.submit();
                     }
                 });
             });
@@ -82,7 +87,7 @@
         let priceDisplay = button.closest('.flex.items-center.justify-between').querySelector('.price-display');
 
         let quantity = parseInt(input.value) + change;
-        if (quantity < 1) quantity = 1; // Prevent negative or zero quantity
+        if (quantity < 1) quantity = 1;
 
         input.value = quantity;
         priceDisplay.textContent = `Rp.${(basePrice * quantity).toLocaleString('id-ID', { minimumFractionDigits: 2 })}`;
@@ -92,7 +97,7 @@
         let priceDisplay = input.closest('.flex.items-center.justify-between').querySelector('.price-display');
 
         let quantity = parseInt(input.value);
-        if (isNaN(quantity) || quantity < 1) quantity = 1; // Prevent invalid values
+        if (isNaN(quantity) || quantity < 1) quantity = 1;
 
         priceDisplay.textContent = `Rp.${(basePrice * quantity).toLocaleString('id-ID', { minimumFractionDigits: 2 })}`;
     }

@@ -14,10 +14,10 @@
 			<table class="w-full text-left table-auto min-w-max">
 				<thead>
 					<tr class="border-b border-slate-300 bg-orange-500 text-white">
-						<th class="p-4 text-sm font-normal leading-none">Image</th>
-						<th class="p-4 text-sm font-normal leading-none">Name</th>
-						<th class="p-4 text-sm font-normal leading-none">Price</th>
-						<th class="p-4 text-sm font-normal leading-none">Quantity</th>
+						<th class="p-4 text-sm font-normal leading-none">Gambar</th>
+						<th class="p-4 text-sm font-normal leading-none">Nama</th>
+						<th class="p-4 text-sm font-normal leading-none">Harga</th>
+						<th class="p-4 text-sm font-normal leading-none">Jumlah</th>
 						<th class="p-4 text-sm font-normal leading-none">Subtotal</th>
 						<th class="p-4 text-sm font-normal leading-none"></th>
 					</tr>
@@ -32,7 +32,7 @@
 						  {{ $item['name'] }}
 						</td>
 						<td class="p-4 border-b border-slate-200 py-5">
-						  ${{ number_format($item['price'], 2) }}
+						  Rp.{{ number_format($item['price'], 2) }}
 						</td>
 						<td class="p-4 border-b border-slate-200 py-5">
 							<form action="{{ route('cart.update') }}" method="POST">
@@ -49,7 +49,7 @@
 							<form action="{{ route('cart.remove') }}" method="POST">
 								@csrf
 								<input type="hidden" name="id" value="{{ $id }}">
-								<button type="submit" class="btn btn-sm btn-danger">Remove</button>
+								<button type="submit" class="btn btn-sm btn-danger">Hapus</button>
 							</form>
 						</td>
 					</tr>
@@ -63,7 +63,7 @@
 			</table>
 			<div class="flex justify-end mt-4">
 				<a href="{{ route('checkout.index') }}" class="px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-green-700 transition">
-					Proceed to Checkout
+					Lanjut ke Checkout
 				</a>
 			</div>
 		@else

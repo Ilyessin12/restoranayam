@@ -8,13 +8,13 @@
 
                 <!-- Address Field -->
                 <div class="mb-4">
-                    <label for="address" class="block text-gray-700 font-medium mb-2">Address:</label>
+                    <label for="address" class="block text-gray-700 font-medium mb-2">Alamat:</label>
                     <input type="text" name="address" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500" required>
                 </div>
 
                 <!-- Phone Number Field -->
                 <div class="mb-4">
-                    <label for="phone" class="block text-gray-700 font-medium mb-2">Phone Number:</label>
+                    <label for="phone" class="block text-gray-700 font-medium mb-2">Nomor Telepon:</label>
                     <input type="text" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500" required>
                 </div>
 
@@ -26,7 +26,7 @@
                 <!-- Place Order Button -->
                 <div class="text-center">
                     <button type="submit" class="w-full px-6 py-3 bg-green-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-green-700 transition">
-                        Place Order
+                        Lakukan Pemesanan
                     </button>
                 </div>
             </form>

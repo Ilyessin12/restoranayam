@@ -10,17 +10,17 @@
 
             <!-- Order Summary -->
             <div class="text-center mb-6">
-                <h2 class="text-2xl font-semibold text-gray-800">Order Confirmation</h2>
-                <p class="text-gray-600 mt-2">Thank you for your order! 🎉</p>
+                <h2 class="text-2xl font-semibold text-gray-800">Konfirmasi Pesanan</h2>
+                <p class="text-gray-600 mt-2">Terima Kasih Atas Pesanan Anda! 🎉</p>
             </div>
 
             <div class="bg-orange-100 p-4 rounded-md shadow-sm border-l-4 border-orange-500 mb-6">
-                <p class="text-lg font-semibold text-orange-700">Order ID: <span class="text-gray-900">#{{ $order->id }}</span></p>
+                <p class="text-lg font-semibold text-orange-700">ID Pesanan: <span class="text-gray-900">#{{ $order->id }}</span></p>
                 <p class="text-lg font-semibold text-orange-700">Status: <span class="text-gray-900">{{ ucfirst($order->status) }}</span></p>
             </div>
 
             <!-- Order Details -->
-            <h4 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Order Details:</h4>
+            <h4 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Detail Pesanan:</h4>
             <ul class="divide-y divide-gray-200 mb-6">
                 @foreach($order->orderDetails as $item)
                     <li class="py-3 flex justify-between">
@@ -38,7 +38,7 @@
             <!-- Back to Home Button -->
             <div class="text-center">
                 <a href="{{ route('beranda') }}" class="px-6 py-3 bg-blue-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-blue-700 transition">
-                    Back to Home
+                    Kembali ke Beranda
                 </a>
             </div>
         </div>

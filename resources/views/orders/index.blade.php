@@ -16,11 +16,11 @@
                     <table class="w-full border-collapse border border-gray-200">
                         <thead>
                             <tr class="bg-orange-500 text-white">
-                                <th class="p-4 text-left">Order ID</th>
-                                <th class="p-4 text-left">Date</th>
+                                <th class="p-4 text-left">ID Pesanan</th>
+                                <th class="p-4 text-left">Tanggal</th>
                                 <th class="p-4 text-left">Total</th>
                                 <th class="p-4 text-left">Status</th>
-                                <th class="p-4 text-center">Actions</th>
+                                <th class="p-4 text-center"></th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -38,7 +38,7 @@
                                     <td class="p-4 text-center">
                                         <a href="{{ route('checkout.success', $order->id) }}" 
                                             class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
-                                            View Details
+                                            Liat Pesanan
                                         </a>
                                     </td>
                                 </tr>

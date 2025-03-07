@@ -24,10 +24,12 @@
             href="/">Beranda</a>
           <a class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 hover:text-orange-400"
             href="{{ route('menu') }}">Menu</a>
+		  @auth
           <a class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 hover:text-orange-400"
             href="{{ route('cart') }}">Keranjang</a>
 		  <a class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 hover:text-orange-400"
             href="{{ route('orders') }}">Pesanan</a>
+		  @endauth
 			
 		  <!-- Show Dashboard button only for admins -->
           @auth
@@ -44,22 +46,25 @@
 	  	  @endguest
 
 		  @auth
-		    <!-- Profile Dropdown -->
-            <div class="relative group">
-                <button class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:outline-none">
-                    Profile
-                </button>
-                <div class="absolute right-0 hidden w-40 mt-2 bg-white rounded-lg shadow-lg group-hover:block">
-                    <a href="{{ route('profile.edit') }}"
-                        class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-t-lg">Edit Profile</a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                            class="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-100 rounded-b-lg">Logout</button>
-                    </form>
-                </div>
-            </div>
+			<!-- Profile Dropdown -->
+			<div x-data="{ open: false }" class="relative">
+				<button @click="open = !open" @click.away="open = false"
+					class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:outline-none">
+					Profil
+				</button>
+
+				<div x-show="open" class="absolute right-0 w-40 mt-2 bg-white rounded-lg shadow-lg">
+					<a href="{{ route('profile.edit') }}"
+						class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-t-lg">Edit Profil</a>
+					<form method="POST" action="{{ route('logout') }}">
+						@csrf
+						<button type="submit"
+							class="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-100 rounded-b-lg">Logout</button>
+					</form>
+				</div>
+			</div>
 		  @endauth
+
 		  
         </div>
       </nav>
