@@ -1,16 +1,16 @@
-<x-filament::page class="dark bg-gray-900 text-white">
-    <div class="p-6 bg-gray-800 text-white shadow rounded-lg">
-        <h1 class="text-2xl font-bold text-white">Admin Dashboard</h1>
-        <p class="text-gray-400">Welcome back, {{ auth()->user()->name }}!</p>
+<x-filament::page>
+    <div class="p-6 bg-white shadow rounded-lg">
+        <h1 class="text-2xl font-bold text-gray-700">Admin Dashboard</h1>
+        <p class="text-gray-500">Welcome back, {{ auth()->user()->name }}!</p>
 
         <!-- Recent Orders -->
         <div class="mt-6">
-            <h2 class="text-xl font-semibold text-white">Recent Orders</h2>
+            <h2 class="text-xl font-semibold text-gray-700">Recent Orders</h2>
             @if ($orders->isEmpty())
-                <p class="text-gray-400">No recent orders found.</p>
+                <p class="text-gray-500">No recent orders found.</p>
             @else
                 <div class="overflow-x-auto mt-4">
-                    <table class="w-full border rounded-lg shadow-md bg-gray-800 text-white">
+                    <table class="w-full border rounded-lg shadow-md">
                         <thead class="bg-orange-500 text-white">
                             <tr>
                                 <th class="p-3">Order ID</th>
@@ -22,7 +22,7 @@
                         </thead>
                         <tbody>
                             @foreach($orders as $order)
-                                <tr class="border-b bg-gray-700 text-white">
+                                <tr class="border-b">
                                     <td class="p-3 text-center">#{{ $order->id }}</td>
                                     <td class="p-3 text-center">{{ $order->user->name ?? 'Guest' }}</td>
                                     <td class="p-3 text-center">Rp.{{ number_format($order->total, 2) }}</td>
@@ -32,7 +32,7 @@
                                         </span>
                                     </td>
                                     <td class="p-3 text-center">
-                                        <a href="{{ route('orders.show', $order->id) }}" class="text-blue-400 hover:underline">View</a>
+                                        <a href="{{ route('orders.show', $order->id) }}" class="text-blue-500 hover:underline">View</a>
                                     </td>
                                 </tr>
                             @endforeach

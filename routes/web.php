@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ReportExportController;
+use App\Http\Controllers\FinancialReportExportController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman-halaman user
@@ -48,6 +50,17 @@ Route::get('/checkout/success/{id}', [CheckoutController::class, 'show'])->name(
 
 // Orders routes
 Route::get('/orders', [CheckoutController::class, 'orders'])->name('orders');
+Route::get('/orders/{order}', [CheckoutController::class, 'show'])->name('orders.show');
+
+// Export Routes
+Route::get('/export-excel', [ReportExportController::class, 'exportExcel'])->name('export.excel');
+Route::get('/export-csv', [ReportExportController::class, 'exportCSV'])->name('export.csv');
+Route::get('/export-pdf', [ReportExportController::class, 'exportPDF'])->name('export.pdf');
+
+Route::get('/laporan-keuangan/export/excel', [FinancialReportExportController::class, 'exportExcel'])->name('laporan-keuangan.export.excel');
+Route::get('/laporan-keuangan/export/csv', [FinancialReportExportController::class, 'exportCSV'])->name('laporan-keuangan.export.csv');
+Route::get('/laporan-keuangan/export/pdf', [FinancialReportExportController::class, 'exportPDF'])->name('laporan-keuangan.export.pdf');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
