@@ -2,7 +2,7 @@
         <div class="flex items-center justify-between">
           <a class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 md:text-2xl hover:text-orange-400 ml-4"
             href="/">
-            Los Pollos Hermanos
+            Restoranayam
           </a>
           <!-- Mobile menu button -->
           <div @click="isOpen = !isOpen" class="flex md:hidden">
@@ -28,6 +28,14 @@
             href="{{ route('cart') }}">Keranjang</a>
 		  <a class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 hover:text-orange-400"
             href="{{ route('orders') }}">Pesanan</a>
+			
+		  <!-- Show Dashboard button only for admins -->
+          @auth
+              @if (Auth::user()->role === 'admin')
+                  <a class="px-4 py-2 text-white bg-gray-700 rounded-lg hover:bg-gray-800"
+                      href="/admin">Dashboard</a>
+              @endif
+          @endauth
 		  
 		  <!-- Authentication Links -->
 		  @guest
@@ -36,10 +44,21 @@
 	  	  @endguest
 
 		  @auth
-		    <form method="POST" action="{{ route('logout') }}">
-			  @csrf
-			  <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600">Logout</button>
-		    </form>
+		    <!-- Profile Dropdown -->
+            <div class="relative group">
+                <button class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:outline-none">
+                    Profile
+                </button>
+                <div class="absolute right-0 hidden w-40 mt-2 bg-white rounded-lg shadow-lg group-hover:block">
+                    <a href="{{ route('profile.edit') }}"
+                        class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-t-lg">Edit Profile</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-100 rounded-b-lg">Logout</button>
+                    </form>
+                </div>
+            </div>
 		  @endauth
 		  
         </div>
