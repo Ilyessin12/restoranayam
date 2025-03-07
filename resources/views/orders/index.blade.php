@@ -1,7 +1,7 @@
 <x-app-layout>
     <section class="px-4 py-8 bg-gray-100">
         <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
-            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">My Orders</h2>
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Pesanan Saya</h2>
 
             @if(session('success'))
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded">
@@ -10,7 +10,7 @@
             @endif
 
             @if($orders->isEmpty())
-                <p class="text-center text-gray-600">You have no orders yet.</p>
+                <p class="text-center text-gray-600">Anda belum memiliki pesanan.</p>
             @else
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse border border-gray-200">

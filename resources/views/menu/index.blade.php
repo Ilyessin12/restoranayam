@@ -1,7 +1,7 @@
 <x-app-layout>	
 	<section class="px-2 py-2 bg-white md:px-0">
       <div class="text-center">
-        <h3 class="text-2xl font-bold">Our Menu</h3>
+        <h3 class="text-2xl font-bold">Menu Kami</h3>
         <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
           TODAY'S SPECIALITY</h2>
       </div>
@@ -12,9 +12,6 @@
 				<img class="w-full h-48 object-cover" src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" />
 				
 				<div class="px-6 py-4">
-					<div class="flex mb-2">
-						<span class="px-4 py-0.5 text-sm bg-red-500 rounded-full text-red-50">Product</span>
-					</div>
 					<h4 class="mb-3 text-xl font-semibold tracking-tight text-orange-600 uppercase">
 						{{ $product->name }}
 					</h4>
